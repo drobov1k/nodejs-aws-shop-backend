@@ -1,0 +1,74 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-prettier"
+  ],
+  "settings": {
+    "import/resolver": "webpack"
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-empty-interface": [
+      "error",
+      {
+        "allowSingleExtends": true
+      }
+    ],
+    "max-len": ["error", {
+      "code": 140,
+      "ignorePattern": "^import .*|it\\(.*"
+    }],
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": ["warn", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_",
+      "caughtErrorsIgnorePattern": "^_"
+    }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "semi": 0,
+    "max-depth": [
+      1,
+      3
+    ],
+    "consistent-return": 0,
+    "prefer-destructuring": 2,
+    "no-plusplus": 0,
+    "func-names": 0,
+    "comma-dangle": [
+      2,
+      {
+        "functions": "ignore",
+        "objects": "always-multiline",
+        "arrays": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline"
+      }
+    ],
+    "no-underscore-dangle": 0,
+    "import/prefer-default-export": 0,
+    "arrow-parens": [
+      0,
+      "as-needed",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "implicit-arrow-linebreak": 0
+  }
+}
