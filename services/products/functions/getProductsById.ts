@@ -1,8 +1,8 @@
 import HttpStatus from 'http-status';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { ProductService } from '../../../core/services/productService';
-import { ProductRepository } from '../../../core/repositories/productRepository';
-import { withCors } from '../../../core/utils/withCors';
+import { ProductService } from '@core/services/productService';
+import { ProductRepository } from '@core/repositories/productRepository';
+import { withCors } from '@core/utils/withCors';
 import products from '../mocks/products';
 import config from '../config';
 

@@ -11,4 +11,9 @@
       "module": "commonjs"
     }
   },
+  "compilerOptions": {
+    "paths": {
+      "@core/*": ["../../core/*"]
+    }
+  }
 }

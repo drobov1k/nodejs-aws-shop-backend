@@ -3,9 +3,6 @@ import { IBaseRepository } from '../repositories/repository.base';
 interface IBaseService<T> {
   getById(id: string): Promise<T | null>;
   getAll(): Promise<T[]>;
-  // create(item: T): Promise<T>;
-  // update(id: string, item: T): Promise<T | null>;
-  // delete(id: string): Promise<boolean>;
 }
 
 export class BaseService<T> implements IBaseService<T> {

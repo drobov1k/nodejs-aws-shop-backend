@@ -5,9 +5,6 @@ interface IHasId {
 export interface IBaseRepository<T> {
   findById(id: string): Promise<T | null>;
   findAll(): Promise<T[]>;
-  // create(item: T): Promise<T>;
-  // update(id: string, item: T): Promise<T | null>;
-  // delete(id: string): Promise<boolean>;
 }
 
 export class BaseRepository<T extends IHasId> implements IBaseRepository<T> {

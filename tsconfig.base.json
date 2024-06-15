@@ -14,7 +14,6 @@
     "noUnusedLocals": false,
     "emitDecoratorMetadata": true,
     "noUnusedParameters": true,
-    "skipLibCheck": true,
-    "baseUrl": "./libs"
+    "skipLibCheck": true
   },
 }
