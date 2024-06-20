@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "sourceMap": true,
+    "declarationMap": true,
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "module": "es6",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "target": "es2019",
+    "removeComments": true,
+    "noUnusedLocals": false,
+    "emitDecoratorMetadata": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true
+  },
+}
