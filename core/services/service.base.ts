@@ -1,15 +1,15 @@
 import { IBaseRepository } from '../repositories/repository.base';
 
 interface IBaseService<T> {
-  getById(id: string): Promise<T | null>;
+  getOne(id: string): Promise<T | null>;
   getAll(): Promise<T[]>;
 }
 
 export class BaseService<T> implements IBaseService<T> {
-  constructor(private repository: IBaseRepository<T>) {}
+  constructor(protected repository: IBaseRepository<T>) {}
 
-  async getById(id: string): Promise<T | null> {
-    return this.repository.findById(id);
+  async getOne(id: string): Promise<T | null> {
+    return this.repository.findOne(id);
   }
 
   async getAll(): Promise<T[]> {

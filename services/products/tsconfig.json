@@ -3,8 +3,7 @@
   "include": ["./**/*.ts"],
   "exclude": [
     "node_modules",
-    "cdk.out",
-    "**/*.test.ts"
+    "cdk.out"
   ],
   "ts-node": {
     "compilerOptions": {
