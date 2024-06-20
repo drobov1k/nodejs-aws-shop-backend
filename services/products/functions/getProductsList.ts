@@ -1,17 +1,15 @@
 import HttpStatus from 'http-status';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { ProductService } from '@core/services/productService';
+import { productService } from '@core/services';
 import { withCors } from '@core/helpers/withCors';
-import config from '../config';
 
 export const getProductsList = withCors(
   async (_event: APIGatewayProxyEvent, _ctx?: Context): Promise<APIGatewayProxyResult> => {
-    const products = await new ProductService().getAll();
+    const products = await productService.getAll();
 
     return {
       statusCode: HttpStatus.OK,
       body: JSON.stringify(products),
     };
-  },
-  config.UI_URL,
+  }
 );
