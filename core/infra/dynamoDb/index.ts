@@ -1,2 +1,1 @@
-import { DynamoDbClient } from './dynamoDbClient';
-export { DynamoDbClient };
+export { DynamoDbClient } from './dynamoDbClient';
