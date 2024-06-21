@@ -1,14 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Product } from '../domain/product';
-import { Stock } from '../domain/stock';
+import { Product, ProductWithStock } from '../domain/product';
 import { DynamoDbClient } from '../infra/dynamoDb';
 import Config from '../../config';
 import { BaseRepository } from './repository.base';
-
-type ProductWithStock = Product & Pick<Stock, 'count'>;
+import { stockRepository } from '.';
 
 interface IProductRepository {
   create(item: Omit<ProductWithStock, 'id'>): Promise<ProductWithStock>;
+  findAllWithStocks(): Promise<ProductWithStock[]>;
 }
 
 export class ProductRepository extends BaseRepository<Product> implements IProductRepository {
@@ -49,5 +48,15 @@ export class ProductRepository extends BaseRepository<Product> implements IProdu
       count,
       ...(description && { description }),
     };
+  }
+
+  async findAllWithStocks(): Promise<ProductWithStock[]> {
+    const products = await this.findAll();
+    const stocks = await stockRepository.findByProducts(products);
+
+    return products.map((p) => ({
+      ...p,
+      count: stocks.find(({ product_id }) => product_id === p.id)?.count ?? 0,
+    }));
   }
 }

@@ -1,4 +1,10 @@
-import { DynamoDBDocumentClient, GetCommand, ScanCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  BatchGetCommand,
+  DynamoDBDocumentClient,
+  GetCommand,
+  ScanCommand,
+  TransactWriteCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { TransactWriteItem } from '@aws-sdk/client-dynamodb';
 import { dynamoDbClientBase } from './dynamoDbClient.base';
 import { IClient } from '../types';
@@ -43,5 +49,19 @@ export class DynamoDbClient implements IClient {
         TransactItems: transactions,
       }),
     );
+  }
+
+  async batchGet<T>(keys: Array<string | number>): Promise<T[]> {
+    const { Responses } = await this.docClient.send(
+      new BatchGetCommand({
+        RequestItems: {
+          [this.tableName]: {
+            Keys: keys.map((key) => ({ [this.pk]: key })),
+          },
+        },
+      }),
+    );
+
+    return Responses[this.tableName] as T[];
   }
 }
