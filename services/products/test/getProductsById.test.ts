@@ -3,9 +3,9 @@ import HttpStatus from 'http-status';
 import { getProductsById } from '../functions/getProductsById';
 import { mockProducts } from './mocks';
 
-jest.mock('@core/services', () => ({
-  productService: {
-    getOne: async (id: string) => {
+jest.mock('@core/repositories', () => ({
+  productRepository: {
+    findOne: async (id: string) => {
       return Promise.resolve(mockProducts.find((p) => p.id === id));
     },
   },

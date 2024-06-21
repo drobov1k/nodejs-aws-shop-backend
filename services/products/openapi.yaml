@@ -25,7 +25,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: '#/components/schemas/ProductWithStock'
     post:
       summary: Create a new product
       operationId: createProduct
@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductWithStock'
+                $ref: '#/components/schemas/Product'
         '404':
           description: Product not found
           content:
