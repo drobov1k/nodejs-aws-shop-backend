@@ -7,12 +7,6 @@ const dynamoDbClient = new DynamoDBClient({
   region: Config.AWS_REGION,
 });
 
-function getRandomInt(): number {
-  const min = 1;
-  const max = 100;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 async function productsSeed(): Promise<string[]> {
   const itemIds = [];
 
@@ -58,7 +52,8 @@ async function stockSeed(productIds: string[]): Promise<void> {
           S: productId,
         },
         count: {
-          N: getRandomInt().toString(),
+          // random from 1 to 100
+          N: (Math.floor(Math.random() * (100 - 1 + 1)) + 1).toString(),
         },
       },
     });

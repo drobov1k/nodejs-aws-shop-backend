@@ -33,12 +33,12 @@ export class DynamoDbClient implements IClient {
     return Items as T[];
   }
 
-  async save<T>(item: Partial<T>): Promise<void> {
-    Promise.resolve(item);
+  async save<T>(item: Partial<T>): Promise<T> {
+    return Promise.resolve(item) as Promise<T>;
   }
 
-  async transactional(...transactions: TransactWriteItem[]): Promise<any> {
-    return this.docClient.send(
+  async transactional(...transactions: TransactWriteItem[]): Promise<void> {
+    await this.docClient.send(
       new TransactWriteCommand({
         TransactItems: transactions,
       }),
