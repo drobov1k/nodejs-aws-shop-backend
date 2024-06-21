@@ -6,6 +6,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as path from 'path';
 
+import { HttpMethod } from '../../../core/helpers';
 import Config from '../../../config';
 import { setEnvVars } from './env-vars';
 
@@ -33,6 +34,11 @@ export class ProductsStack extends cdk.Stack {
 
     const api = new apigateway.RestApi(this, 'ProductsApi', {
       restApiName: 'Products Service',
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: [HttpMethod.Get, HttpMethod.Post, HttpMethod.Options],
+        allowHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
+      },
     });
 
     const productTable = new dynamodb.Table(this, 'ProductTable', {
