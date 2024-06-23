@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "cdk.out"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    "paths": {
+      "@core/*": ["../../core/*"]
+    }
+  }
+}
