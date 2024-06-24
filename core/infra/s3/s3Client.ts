@@ -34,8 +34,13 @@ export class S3Client extends AWSS3Client implements IS3Client {
 
   async getObject(bucketName: string, key: string): Promise<Readable> {
     const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-    const { Body } = await this.send(command);
-    return Body;
+    const result = await this.send(command);
+
+    if (!result) {
+      return null;
+    }
+
+    return result.Body as Readable;
   }
 
   async moveObject({
