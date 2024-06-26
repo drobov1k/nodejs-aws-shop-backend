@@ -46,7 +46,7 @@ export class ImportStack extends cdk.Stack {
       bucketName: Config.S3_BUCKET_NAME,
       cors: [
         {
-          allowedOrigins: ['*'],
+          allowedOrigins: [Config.UI_URL],
           allowedMethods: [s3.HttpMethods.PUT],
           allowedHeaders: ['*'],
           maxAge: 3000,
