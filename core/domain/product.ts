@@ -1,8 +1,10 @@
+import { Stock } from './stock';
+
 export interface Product {
   id: string;
   title: string;
-  description?: string;
   price: number;
-  count: number;
-  imgUrl?: string;
+  description?: string;
 }
+
+export type ProductWithStock = Product & Pick<Stock, 'count'>;

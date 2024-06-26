@@ -1,7 +1,15 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import HttpStatus from 'http-status';
-import products from '../mocks/products';
 import { getProductsById } from '../functions/getProductsById';
+import { mockProducts } from './mocks';
+
+jest.mock('@core/repositories', () => ({
+  productRepository: {
+    findOne: async (id: string) => {
+      return Promise.resolve(mockProducts.find((p) => p.id === id));
+    },
+  },
+}));
 
 describe('GET /api/products/:id', () => {
   it('should return 404 if product not found', async () => {
@@ -12,7 +20,7 @@ describe('GET /api/products/:id', () => {
   });
 
   it('should return 200 status and product', async () => {
-    const [product] = products;
+    const [product] = mockProducts;
     const event: APIGatewayProxyEvent = { pathParameters: { id: product.id } } as any;
     const response = await getProductsById(event);
 
@@ -21,9 +29,7 @@ describe('GET /api/products/:id', () => {
       id: product.id,
       title: product.title,
       description: product.description,
-      count: product.count,
       price: product.price,
-      imgUrl: product.imgUrl,
     });
   });
 });

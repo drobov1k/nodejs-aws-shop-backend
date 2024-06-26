@@ -1,0 +1,1 @@
+export { DynamoDbClient } from './dynamoDbClient';

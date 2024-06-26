@@ -1,9 +1,9 @@
 import HttpStatus from 'http-status';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { productRepository } from '@core/repositories';
-import { withCors } from '@core/helpers/withCors';
+import { errorHandler } from '@core/helpers';
 
-export const getProductsById = withCors(
+export const getProductsById = errorHandler(
   async ({ pathParameters }: APIGatewayProxyEvent, _ctx?: Context): Promise<APIGatewayProxyResult> => {
     const productId = pathParameters.id;
     const product = await productRepository.findOne(productId);
@@ -12,7 +12,7 @@ export const getProductsById = withCors(
       return {
         statusCode: HttpStatus.NOT_FOUND,
         body: JSON.stringify({
-          message: `Product ${productId} not found.`,
+          message: `Product ${productId} not found`,
         }),
       };
     }
