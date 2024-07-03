@@ -1,6 +1,6 @@
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
-import Config from '../config';
+import Config from '../../config';
 import { products } from './data';
 
 const dynamoDbClient = new DynamoDBClient({

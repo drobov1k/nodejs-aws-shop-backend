@@ -1,8 +1,17 @@
 import { Readable } from 'stream';
 import csv from 'csv-parser';
 
-export const processCsv = <T, K extends (arg: T) => void>(source: Readable, action: K): void => {
-  source.pipe(csv({ separator: ';' })).on('data', (data: T) => {
-    action(data);
+export const processCsv = async <T>(source: Readable): Promise<T[]> => {
+  const items: T[] = [];
+  return new Promise((resolve, reject) => {
+    source
+      .pipe(csv({ separator: ';' }))
+      .on('data', (data: T) => {
+        items.push(data);
+      })
+      .on('end', () => {
+        resolve(items);
+      })
+      .on('error', reject);
   });
 };
