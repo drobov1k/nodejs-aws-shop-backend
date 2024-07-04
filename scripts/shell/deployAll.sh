@@ -6,9 +6,6 @@ SERVICES_DIR="$SCRIPT_DIR/../../services"
 deploy_in_subdirs() {
   local dir=$1
   
-    echo "Contents of $dir:"
-    ls -l
-  
   cd "$dir" || exit
 
   if [[ -f "cdk.json" ]]; then
