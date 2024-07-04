@@ -12,5 +12,14 @@ const buildMessage = (products: ProductWithStock[]): string => `
 `;
 
 export const sendSuccessCreationEmail = async (products: ProductWithStock[]): Promise<void> => {
-  await snsClient.publish(Config.PRODUCT_SNS_TOPIC_ARN, buildMessage(products));
+  const maxPrice = Math.max(...products.map((p) => p.price));
+
+  await snsClient.publish(Config.PRODUCT_SNS_TOPIC_ARN, buildMessage(products), {
+    MessageAttributes: {
+      price: {
+        DataType: 'Number',
+        StringValue: maxPrice.toString(),
+      },
+    },
+  });
 };

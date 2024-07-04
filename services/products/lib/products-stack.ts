@@ -96,7 +96,7 @@ export class ProductsStack extends cdk.Stack {
     });
     catalogBatchFunction.addEventSource(
       new lambdaEventSources.SqsEventSource(productQueue, {
-        batchSize: +Config.PRODUCT_SQS_QUEUE_BATCH_SIZE,
+        batchSize: Config.PRODUCT_SQS_QUEUE_BATCH_SIZE,
       }),
     );
 
@@ -104,6 +104,15 @@ export class ProductsStack extends cdk.Stack {
       topicName: Config.PRODUCT_SNS_TOPIC,
     });
     publisher.addSubscription(new subs.EmailSubscription(Config.PRODUCT_SNS_SUBSCRIBER_EMAIL));
+    publisher.addSubscription(
+      new subs.EmailSubscription(Config.PRODUCT_SNS_EXPENSIVE_SUBSCRIBER_EMAIL, {
+        filterPolicy: {
+          price: sns.SubscriptionFilter.numericFilter({
+            greaterThanOrEqualTo: Config.PRODUCT_SNS_EXPENSIVE_STUFF_MIN_SUM,
+          }),
+        },
+      }),
+    );
     publisher.grantPublish(catalogBatchFunction);
   }
 }
