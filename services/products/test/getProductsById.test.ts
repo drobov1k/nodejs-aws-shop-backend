@@ -30,6 +30,7 @@ describe('GET /api/products/:id', () => {
       title: product.title,
       description: product.description,
       price: product.price,
+      count: product.count,
     });
   });
 });

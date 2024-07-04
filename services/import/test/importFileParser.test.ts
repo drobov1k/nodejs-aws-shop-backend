@@ -1,6 +1,7 @@
 import { S3Event } from 'aws-lambda';
 import { logger, processCsv } from '@core/helpers';
 import { s3Client } from '@core/infra/s3';
+import { sqsClient } from '@core/infra/sqs';
 import { importFileParser } from '../functions/importFileParser';
 import Config from '../../../config';
 
@@ -11,6 +12,12 @@ jest.mock('@core/infra/s3', () => ({
       return mockGetObject;
     },
     moveObject: jest.fn(),
+  },
+}));
+
+jest.mock('@core/infra/sqs', () => ({
+  sqsClient: {
+    sendMessageBatch: jest.fn(),
   },
 }));
 
@@ -66,7 +73,8 @@ describe('S3 event: csv file is uploaded', () => {
     mockGetObject = Object.create(null);
     await importFileParser(event);
 
-    expect(processCsv).toBeCalledWith(mockGetObject, logger.log);
+    expect(processCsv).toBeCalledWith(mockGetObject);
+    expect(sqsClient.sendMessageBatch).toHaveBeenCalled();
     expect(s3Client.moveObject).toBeCalledWith({
       sourceBucket: Config.S3_BUCKET_NAME,
       sourceKey: key,

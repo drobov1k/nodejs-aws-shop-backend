@@ -2,7 +2,7 @@ import { snsClient } from '@core/infra/sns';
 import { ProductWithStock } from '@core/domain/product';
 import Config from '../../../../config';
 
-const buildMessage = (products: ProductWithStock[]): string => `
+export const buildMessage = (products: ProductWithStock[]): string => `
   The following products were imported:
   ${products.map(
     (product, i) => `
