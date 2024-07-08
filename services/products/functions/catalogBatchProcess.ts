@@ -6,12 +6,7 @@ import { sendSuccessCreationEmail } from './utils/sendSuccessCreationEmail';
 
 export const catalogBatchProcess = async (event: SQSEvent, _context?: Context): Promise<void> => {
   try {
-    const products: ProductWithStock[] = [];
-
-    for (const { body } of event.Records) {
-      products.push(JSON.parse(body));
-    }
-
+    const products: ProductWithStock[] = event.Records.map(({ body }) => JSON.parse(body));
     await productRepository.insertWithStocks(products);
     await sendSuccessCreationEmail(products);
   } catch (e) {
