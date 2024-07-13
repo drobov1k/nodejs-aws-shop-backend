@@ -34,6 +34,12 @@ export class ImportStack extends cdk.Stack {
       },
     });
 
+    const authFunction = nodelambda.NodejsFunction.fromFunctionName(this, 'BasicAuthFunc', 'basicAuthorizer');
+    const authorizer = new apigateway.RequestAuthorizer(this, 'BasicAuthorizer', {
+      handler: authFunction,
+      identitySources: [apigateway.IdentitySource.header('Authorization')],
+    });
+
     const api = new apigateway.RestApi(this, 'ImportApi', {
       restApiName: 'Import Service',
     });
@@ -43,6 +49,8 @@ export class ImportStack extends cdk.Stack {
       requestParameters: {
         'method.request.querystring.name': true,
       },
+      authorizer,
+      authorizationType: apigateway.AuthorizationType.CUSTOM,
     });
 
     const bucket = new s3.Bucket(this, 'MyBucket', {
