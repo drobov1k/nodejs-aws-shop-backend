@@ -16,7 +16,7 @@ export class AuthorizationStack extends cdk.Stack {
       entry: path.join(__dirname, '../functions/basicAuthorizer.ts'),
       environment: {
         AUTH_GITHUB_DEFAULT_USERNAME: Config.AUTH_GITHUB_DEFAULT_USERNAME,
-        AUTH_DEFAULT_PASSWORD: Config.AUTH_DEFAULT_PASSWORD,
+        AUTH_GITHUB_DEFAULT_PASSWORD: Config.AUTH_GITHUB_DEFAULT_PASSWORD,
       },
     });
   }

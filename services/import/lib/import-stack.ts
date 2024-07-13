@@ -9,7 +9,6 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 import path from 'path';
 
-import { HttpMethod } from '@core/helpers';
 import Config from '../../../config';
 
 export class ImportStack extends cdk.Stack {
@@ -43,11 +42,6 @@ export class ImportStack extends cdk.Stack {
 
     const api = new apigateway.RestApi(this, 'ImportApi', {
       restApiName: 'Import Service',
-      defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,
-        allowMethods: [HttpMethod.Get, HttpMethod.Post, HttpMethod.Options],
-        allowHeaders: ['Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token'],
-      },
     });
 
     const importResource = api.root.addResource('import');
