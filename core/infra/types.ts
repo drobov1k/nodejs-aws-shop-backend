@@ -6,4 +6,5 @@ export interface IClient {
   save<T>(item: Partial<T>): Promise<T>;
   transactional(...transactions: TransactWriteItem[]): Promise<void>;
   batchGet<T>(keys: Array<string | number>): Promise<T[]>;
+  batchInsert<T>(items: T[]): Promise<void>;
 }

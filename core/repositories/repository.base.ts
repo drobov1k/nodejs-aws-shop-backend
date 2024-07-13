@@ -4,6 +4,7 @@ export interface IBaseRepository<T> {
   findOne(id: string): Promise<T | null>;
   findAll(): Promise<T[]>;
   create(item: Partial<T>): Promise<T>;
+  batchInsert(items: T[]): Promise<void>;
 }
 
 export class BaseRepository<T> implements IBaseRepository<T> {
@@ -19,5 +20,9 @@ export class BaseRepository<T> implements IBaseRepository<T> {
 
   async create(item: Partial<T>): Promise<T> {
     return this.client.save(item);
+  }
+
+  async batchInsert(items: T[]): Promise<void> {
+    await this.client.batchInsert(items);
   }
 }

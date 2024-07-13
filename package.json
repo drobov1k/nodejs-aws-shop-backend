@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dynamo:seed": "npx ts-node-esm seeds/dynamo.ts"
+    "deploy:all": "scripts/shell/deployAll.sh",
+    "dynamo:seed": "npx ts-node-esm scripts/seeds/dynamo.ts"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "3.598.0",

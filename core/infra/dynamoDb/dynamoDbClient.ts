@@ -4,6 +4,7 @@ import {
   GetCommand,
   ScanCommand,
   TransactWriteCommand,
+  BatchWriteCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { TransactWriteItem } from '@aws-sdk/client-dynamodb';
 import { dynamoDbClientBase } from './dynamoDbClient.base';
@@ -63,5 +64,19 @@ export class DynamoDbClient implements IClient {
     );
 
     return Responses[this.tableName] as T[];
+  }
+
+  async batchInsert<T>(items: T[]): Promise<void> {
+    await this.docClient.send(
+      new BatchWriteCommand({
+        RequestItems: {
+          [this.tableName]: items.map((item) => ({
+            PutRequest: {
+              Item: item,
+            },
+          })),
+        },
+      }),
+    );
   }
 }

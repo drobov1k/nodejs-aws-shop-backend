@@ -1,4 +1,4 @@
-import { Product } from '../core/domain/product';
+import { Product } from '../../core/domain/product';
 
 export const products: Omit<Product, 'id'>[] = [
   {

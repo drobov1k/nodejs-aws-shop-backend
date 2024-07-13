@@ -3,6 +3,7 @@ import { logger, processCsv } from '@core/helpers';
 import { s3Client } from '@core/infra/s3';
 import { ProductWithStock } from '@core/domain/product';
 import Config from '../../../config';
+import { sendProductMessages } from './utils/sendProductMessages';
 
 export const importFileParser = async (event: S3Event, _ctx?: Context): Promise<void> => {
   try {
@@ -14,7 +15,8 @@ export const importFileParser = async (event: S3Event, _ctx?: Context): Promise<
         throw new Error("Can't find the file: bucket " + Config.S3_BUCKET_NAME + ', file ' + key);
       }
 
-      processCsv<ProductWithStock, typeof logger.log>(found, logger.log);
+      const parsedProducts = await processCsv<ProductWithStock>(found);
+      await sendProductMessages(parsedProducts);
       await s3Client.moveObject({
         sourceBucket: Config.S3_BUCKET_NAME,
         sourceKey: key,

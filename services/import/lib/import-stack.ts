@@ -4,6 +4,8 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
+import * as sqs from 'aws-cdk-lib/aws-sqs';
+
 import { Construct } from 'constructs';
 import path from 'path';
 
@@ -28,6 +30,7 @@ export class ImportStack extends cdk.Stack {
       entry: path.join(__dirname, '../functions/importFileParser.ts'),
       environment: {
         S3_BUCKET_NAME: Config.S3_BUCKET_NAME,
+        PRODUCT_SQS_QUEUE_URL: Config.PRODUCT_SQS_QUEUE_URL,
       },
     });
 
@@ -58,5 +61,8 @@ export class ImportStack extends cdk.Stack {
     bucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(importFileParserFunction), {
       prefix: 'uploaded/',
     });
+
+    const queue = sqs.Queue.fromQueueArn(this, 'ProductQueue', Config.PRODUCT_SQS_QUEUE_ARN);
+    queue.grantSendMessages(importFileParserFunction);
   }
 }
